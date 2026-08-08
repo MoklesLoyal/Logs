@@ -10,8 +10,6 @@ on:
   - push
   - workflow_dispatch
 
-concurrency: ${{ github.ref }}
-
 jobs:
   retrieve-project:
     name: check readiness
@@ -26,9 +24,9 @@ jobs:
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-us.ionos.space
-          # The IONOS Deploy Now GitHub App will replace this with your project ID.
-          project-id: YOUR_IONOS_PROJECT_ID
+          project-id: ec6286a1-dd48-4754-8281-44a3c1693be2
           action: retrieve-info
+
 
   build:
     name: build
@@ -45,7 +43,6 @@ jobs:
     needs:
       - retrieve-project
       - build
-    if: ${{ needs.retrieve-project.outputs.deployment-enabled == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Dispatch deployment(s)
@@ -53,6 +50,6 @@ jobs:
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-us.ionos.space
-          project-id: YOUR_IONOS_PROJECT_ID
+          project-id: ec6286a1-dd48-4754-8281-44a3c1693be2
           branch-id: ${{ needs.retrieve-project.outputs.branch-id }}
           action: dispatch-deployments
