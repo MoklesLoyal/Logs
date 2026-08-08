@@ -1,0 +1,13 @@
+version: 1.0
+
+bootstrap:
+  excludes:
+    - scripts
+    - README.md
+    - package.json
+
+recurring:
+  excludes:
+    - scripts
+    - README.md
+    - package.json
