@@ -5,9 +5,11 @@ bootstrap:
     - scripts
     - README.md
     - package.json
+    - node_modules
 
 recurring:
   excludes:
     - scripts
     - README.md
     - package.json
+    - node_modules
