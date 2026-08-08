@@ -1,0 +1,56 @@
+# Build workflow for IONOS Deploy Now (v2).
+# This workflow is triggered by the IONOS Deploy Now orchestration workflow.
+# More information under https://docs.ionos.space/docs/github-actions-customization/
+# version: 2022-07-21
+
+name: "Deploy Now: Execute Build"
+
+on:
+  workflow_call:
+    inputs:
+      site-url:
+        required: true
+        type: string
+      branch-id:
+        required: true
+        type: string
+
+env:
+  # Plain HTML/CSS/JS site lives in the repository root.
+  DEPLOYMENT_FOLDER: ./
+
+jobs:
+  # Please do not rename this job.
+  build-project:
+    name: build Logs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build log index
+        env:
+          CI: true
+          SITE_URL: ${{ inputs.site-url }}
+        run: node scripts/sync-pages.js
+
+      # Please do not touch the following action.
+      - name: Store deployment content
+        uses: ionos-deploy-now/artifact-action@v1
+        with:
+          api-key: ${{ secrets.IONOS_API_KEY }}
+          service-host: api-us.ionos.space
+          # The IONOS Deploy Now GitHub App will replace this with your project ID.
+          project-id: YOUR_IONOS_PROJECT_ID
+          branch-id: ${{ inputs.branch-id }}
+          version: ${{ github.sha }}
+          folder: ${{ env.DEPLOYMENT_FOLDER }}
+          config-file: .deploy-now/Logs/config.yaml
+          action: upload

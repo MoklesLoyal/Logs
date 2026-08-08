@@ -1,0 +1,13 @@
+{
+  "name": "logs-viewer",
+  "version": "1.0.0",
+  "description": "Static Discord log viewer for IONOS Deploy Now",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/sync-pages.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "private": true
+}

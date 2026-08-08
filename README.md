@@ -1,63 +1,60 @@
 # Logs
+
 All things log to a website.
 
 ## Discord Log Viewer
 
-There are two versions of the viewer. Pick the one that fits your hosting plan.
+This is a plain HTML/CSS/JS static site — no framework build step, no server-side runtime. It is configured for [IONOS Deploy Now](https://www.ionos.com/hosting/deploy-now).
 
-### Option 1: Static HTML (best for IONOS / traditional web hosting)
+Because the site is plain HTML/CSS/JS, the deployed files live in the repository root (`./`).
 
-The [website-static/](website-static/) folder is a plain HTML/CSS/JS site with no build step or server-side requirements. You can upload it directly to IONOS, GitHub Pages, Netlify, or any static host.
+### Project layout
 
-#### Manual upload
+- [index.html](index.html) — viewer shell
+- [app.js](app.js) — viewer logic
+- [style.css](style.css) — viewer styles
+- [logs-data.js](logs-data.js) — auto-generated list of logs
+- [pages/](pages/) — Discord HTML exports (kept in the `pages/` directory)
+- [scripts/sync-pages.js](scripts/sync-pages.js) — regenerates `logs-data.js` from the `pages/` folder
+
+### Local development
+
+Open [index.html](index.html) directly in a browser, or serve the root folder with any static server.
+
+Regenerate the log index after adding/removing files in `pages/`:
 
 ```bash
-cd website-static
 node scripts/sync-pages.js
 ```
 
-Then upload the contents of `website-static/` (including the `pages/` folder) to your host.
+### IONOS Deploy Now
 
-#### IONOS Deploy Now
+This repo is set up for IONOS Deploy Now via [.github/workflows/](.github/workflows/):
 
-This repo is already set up with [IONOS Deploy Now](https://www.ionos.com/hosting/deploy-now) via [.github/workflows/](.github/workflows/):
+- [Logs-orchestration.yaml](.github/workflows/Logs-orchestration.yaml) triggers on every push, retrieves project info, and calls build + deploy.
+- [Logs-build.yaml](.github/workflows/Logs-build.yaml) runs `node scripts/sync-pages.js` and uploads the repository root (`./`) as the deployment folder.
+- [deploy-to-ionos.yaml](.github/workflows/deploy-to-ionos.yaml) is the IONOS-generated deploy workflow.
 
-- [Logs-build.yaml](.github/workflows/Logs-build.yaml) runs `node website-static/scripts/sync-pages.js` before uploading
-- It deploys only the `website-static/` folder
+#### Set up IONOS Deploy Now for this repo
 
-Pushes to `main` will trigger the build and deploy automatically.
+1. **Go to [IONOS Deploy Now](https://www.ionos.com/hosting/deploy-now)** and sign in.
+2. **Create a new project from an existing repository** and select `MoklesLoyal/Logs`.
+3. Choose **Static Site** as the project type.
+4. In the build settings, IONOS will detect the workflows. If asked:
+   - **Build command:** `node scripts/sync-pages.js`
+   - **Publish / output directory:** `./` (the repository root, because this is plain HTML/CSS/JS)
+   - **Node version:** `20`
+5. Finish the setup. The IONOS Deploy Now GitHub App will:
+   - install the required secrets (`IONOS_API_KEY`, `IONOS_SSH_KEY`, etc.)
+   - rewrite `project-id` in both [Logs-orchestration.yaml](.github/workflows/Logs-orchestration.yaml) and [Logs-build.yaml](.github/workflows/Logs-build.yaml) to match your new project
+   - ensure the orchestration workflow is wired to the correct project
+6. **Push your code to `main`** (or any commit). The orchestration workflow will run and deploy the site.
 
-Files:
-- [website-static/index.html](website-static/index.html)
-- [website-static/style.css](website-static/style.css)
-- [website-static/app.js](website-static/app.js)
-- [website-static/logs-data.js](website-static/logs-data.js) — auto-generated list of logs
-- [website-static/pages/](website-static/pages/) — copies of the Discord HTML exports
-
-### Option 2: React + Vite
-
-The [website/](website/) folder is a Vite + React version for local development or hosts that support Node.js builds.
-
-```bash
-cd website
-npm install
-npm run dev
-```
-
-Then open http://localhost:5173 in your browser.
-
-Build for production:
-
-```bash
-npm run build
-npm run preview
-```
-
-The static site is output to `website/dist/`.
+> **Note:** [Logs-orchestration.yaml](.github/workflows/Logs-orchestration.yaml) and [Logs-build.yaml](.github/workflows/Logs-build.yaml) currently contain `project-id: YOUR_IONOS_PROJECT_ID`. Leave them as-is if you connect through the IONOS GitHub App — they will be rewritten automatically. Only replace them manually if you are configuring the project by hand and already know your project ID from the IONOS dashboard.
 
 ### How it works
 
-- The sync script copies the HTML files from `../pages` into the site's `pages/` folder and generates a log list (`manifest.json` for React, `logs-data.js` for static).
+- The sync script scans the `pages/` folder and generates `logs-data.js` so the viewer can list logs without server-side directory listing.
 - The sidebar lists each log file and shows the channel name + ID extracted from the filename.
 - Selecting a log loads it in an iframe so the original Discord styling is preserved.
 

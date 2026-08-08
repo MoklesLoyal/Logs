@@ -1,8 +1,0 @@
-# Force index.html as the default directory file
-DirectoryIndex index.html
-
-# Deny access to the build/sync script on the live server
-<IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteRule ^scripts/ - [F,L]
-</IfModule>
