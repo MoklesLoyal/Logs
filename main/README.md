@@ -9,23 +9,12 @@ There are two versions of the viewer. Pick the one that fits your hosting plan.
 
 The [website-static/](website-static/) folder is a plain HTML/CSS/JS site with no build step or server-side requirements. You can upload it directly to IONOS, GitHub Pages, Netlify, or any static host.
 
-#### Manual upload
-
 ```bash
 cd website-static
 node scripts/sync-pages.js
 ```
 
 Then upload the contents of `website-static/` (including the `pages/` folder) to your host.
-
-#### IONOS Deploy Now
-
-This repo is already set up with [IONOS Deploy Now](https://www.ionos.com/hosting/deploy-now) via [.github/workflows/](.github/workflows/):
-
-- [Logs-build.yaml](.github/workflows/Logs-build.yaml) runs `node website-static/scripts/sync-pages.js` before uploading
-- It deploys only the `website-static/` folder
-
-Pushes to `main` will trigger the build and deploy automatically.
 
 Files:
 - [website-static/index.html](website-static/index.html)
