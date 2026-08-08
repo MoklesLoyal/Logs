@@ -14,7 +14,7 @@ on:
         type: string
 
 env:
-  DEPLOYMENT_FOLDER: ./
+  DEPLOYMENT_FOLDER: ./website-static
 
 jobs:
 # Please do not rename this job
@@ -26,6 +26,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: 'recursive'
+
+      - name: Sync Discord log pages
+        run: node website-static/scripts/sync-pages.js
 
 # Please do not touch the following action
       - name: Store deployment content
