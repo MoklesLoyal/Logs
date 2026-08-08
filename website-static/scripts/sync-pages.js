@@ -69,6 +69,13 @@ const LOGS = ${JSON.stringify(htmlFiles, null, 2)};
 `
   await fs.writeFile(path.join(siteDir, 'logs-data.js'), dataFile)
 
+  // Allow directory listing inside pages/ so individual log files can be served
+  // even if the host does not set a default for subdirectories.
+  await fs.writeFile(
+    path.join(targetDir, '.htaccess'),
+    'Options +Indexes\n'
+  )
+
   console.log(`Synced ${htmlFiles.length} log file(s) to website-static/pages.`)
 }
 
