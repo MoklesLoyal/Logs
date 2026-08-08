@@ -52,10 +52,11 @@ async function sync() {
     await fs.copyFile(src, dest)
   }
 
-  // Clean up files that no longer exist in the source folder
+  // Clean up files that no longer exist in the source folder,
+  // but never delete hidden config files like .htaccess.
   const existingTargets = await fs.readdir(targetDir)
   for (const file of existingTargets) {
-    if (!htmlFiles.includes(file)) {
+    if (!htmlFiles.includes(file) && !file.startsWith('.')) {
       await fs.unlink(path.join(targetDir, file))
     }
   }

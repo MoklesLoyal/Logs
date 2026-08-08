@@ -1,0 +1,15 @@
+# Force index.html as the default directory file
+DirectoryIndex index.html
+
+# Allow directory listing for the pages folder so log files are accessible
+<IfModule mod_autoindex.c>
+  <DirectoryMatch "^(.*/)?pages/$">
+    Options +Indexes
+  </DirectoryMatch>
+</IfModule>
+
+# Deny access to the build/sync script on the live server
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^scripts/ - [F,L]
+</IfModule>
