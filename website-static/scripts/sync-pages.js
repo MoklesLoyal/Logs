@@ -1,13 +1,43 @@
-import { promises as fs } from 'fs'
+import { promises as fs, existsSync } from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const pagesRoot = path.resolve(__dirname, '../../pages')
 const siteDir = path.resolve(__dirname, '..')
+
+// The source pages folder is normally next to the website-static folder,
+// but it may also be nested under a "main" subfolder or located at the
+// process working directory on CI runners. Try the common locations.
+function findPagesRoot() {
+  const candidates = [
+    path.resolve(siteDir, '../pages'),
+    path.resolve(siteDir, '../main/pages'),
+    path.resolve(process.cwd(), 'pages'),
+    path.resolve(process.cwd(), 'main/pages'),
+    path.resolve(siteDir, '../../pages'),
+    path.resolve(siteDir, '../../main/pages'),
+  ]
+  for (const candidate of candidates) {
+    if (existsSync(candidate)) {
+      console.log(`Using pages source: ${candidate}`)
+      return candidate
+    }
+  }
+  // Default to the local sibling location so the error message is predictable.
+  return candidates[0]
+}
+
+const pagesRoot = findPagesRoot()
 const targetDir = path.join(siteDir, 'pages')
 
 async function sync() {
+  if (!existsSync(pagesRoot)) {
+    throw new Error(
+      `Could not find the source pages folder. Looked at: ${pagesRoot}\n` +
+        `Make sure the "pages/" directory is committed to the repository.`
+    )
+  }
+
   await fs.mkdir(targetDir, { recursive: true })
 
   const entries = await fs.readdir(pagesRoot, { withFileTypes: true })
