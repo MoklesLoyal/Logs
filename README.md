@@ -10,22 +10,24 @@ Because the site is plain HTML/CSS/JS, the deployed files live in the repository
 
 ### Project layout
 
-- [index.html](index.html) — viewer shell
+- [index.template.html](index.template.html) — viewer shell template
+- [index.html](index.html) — generated viewer shell (created by `scripts/sync-pages.js`)
 - [app.js](app.js) — viewer logic
 - [style.css](style.css) — viewer styles
-- [logs-data.js](logs-data.js) — auto-generated list of logs
 - [pages/](pages/) — Discord HTML exports (kept in the `pages/` directory)
-- [scripts/sync-pages.js](scripts/sync-pages.js) — regenerates `logs-data.js` from the `pages/` folder
+- [scripts/sync-pages.js](scripts/sync-pages.js) — scans `pages/` and generates `index.html` with the log list inlined
 
 ### Local development
 
-Open [index.html](index.html) directly in a browser, or serve the root folder with any static server.
-
-Regenerate the log index after adding/removing files in `pages/`:
+Regenerate the viewer after adding/removing files in `pages/`:
 
 ```bash
 node scripts/sync-pages.js
 ```
+
+Then open the generated [index.html](index.html) in a browser, or serve the root folder with any static server.
+
+> The generated `index.html` and `logs-data.js` are not committed to the repository. They are created fresh during the IONOS build and deployed automatically.
 
 ### IONOS Deploy Now
 

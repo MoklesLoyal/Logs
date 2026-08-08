@@ -9,6 +9,11 @@ lerna-debug.log*
 # Do not ignore IONOS Deploy Now configuration folders named Logs
 !.deploy-now/Logs/
 
+# Generated files (created by scripts/sync-pages.js during build)
+index.html
+logs-data.js
+node_modules/
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
