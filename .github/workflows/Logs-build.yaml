@@ -32,6 +32,12 @@ jobs:
         with:
           node-version: v20
 
+      - name: List workspace files
+        run: |
+          echo "Current commit: ${{ github.sha }}"
+          echo "Current ref: ${{ github.ref }}"
+          ls -la
+
       - name: Build Node assets
         env:
           CI: true
