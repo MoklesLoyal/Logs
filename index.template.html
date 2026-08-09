@@ -7,7 +7,23 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="app">
+  <div id="login-screen" class="login-screen">
+    <div class="login-box">
+      <h1>Restricted Logs</h1>
+      <p>Enter the password to view the Discord logs.</p>
+      <input
+        type="password"
+        id="login-password"
+        class="login-input"
+        placeholder="Password"
+        autocomplete="off"
+      />
+      <button id="login-button" class="login-button">Unlock</button>
+      <p id="login-error" class="login-error hidden">Incorrect password.</p>
+    </div>
+  </div>
+
+  <div id="app" class="app hidden">
     <aside class="sidebar">
       <div class="sidebar-header">
         <h1>Discord Logs</h1>
