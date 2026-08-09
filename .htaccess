@@ -1,11 +1,11 @@
-<Files "info.php">
-  Require all granted
-</Files>
-
-AuthType Basic
-AuthName "Restricted Logs"
-AuthUserFile .htpasswd
-Require valid-user
+# Password protection is configured but temporarily disabled until the absolute
+# AuthUserFile path for IONOS Deploy Now is provided.
+# See: https://docs.ionos.space/docs/apache-configuration-htaccess/#password-protection
+#
+# AuthType Basic
+# AuthName "Restricted Logs"
+# AuthUserFile /absolute/path/to/.htpasswd
+# Require valid-user
 
 # Allow directory listing inside pages/ so individual log files can be served.
 <IfModule mod_autoindex.c>

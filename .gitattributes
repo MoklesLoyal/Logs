@@ -1,0 +1,3 @@
+# Force Unix line endings for Apache config/password files so they deploy correctly.
+.htaccess text eol=lf
+.htpasswd text eol=lf
