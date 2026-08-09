@@ -1,0 +1,9 @@
+AuthType Basic
+AuthName "Restricted Logs"
+AuthUserFile .htpasswd
+Require valid-user
+
+# Allow directory listing inside pages/ so individual log files can be served.
+<IfModule mod_autoindex.c>
+  Options +Indexes
+</IfModule>
