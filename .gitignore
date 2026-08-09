@@ -10,7 +10,6 @@ lerna-debug.log*
 !.deploy-now/Logs/
 
 # Generated files (created by scripts/sync-pages.js during build)
-index.html
 logs-data.js
 node_modules/
 
