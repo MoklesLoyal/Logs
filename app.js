@@ -99,4 +99,33 @@ function init() {
   }
 }
 
-init()
+const PASSWORD = 'saltybear45'
+
+const loginScreen = document.getElementById('login-screen')
+const appContainer = document.getElementById('app')
+const passwordInput = document.getElementById('login-password')
+const loginButton = document.getElementById('login-button')
+const loginError = document.getElementById('login-error')
+
+function unlockApp() {
+  loginScreen.classList.add('hidden')
+  appContainer.classList.remove('hidden')
+  init()
+}
+
+function checkPassword() {
+  if (passwordInput.value === PASSWORD) {
+    unlockApp()
+  } else {
+    loginError.classList.remove('hidden')
+    passwordInput.value = ''
+    passwordInput.focus()
+  }
+}
+
+loginButton.addEventListener('click', checkPassword)
+passwordInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') checkPassword()
+})
+
+passwordInput.focus()

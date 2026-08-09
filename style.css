@@ -32,6 +32,85 @@ body {
   height: 100%;
 }
 
+.app.hidden {
+  display: none;
+}
+
+.login-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  padding: 20px;
+  background: var(--bg);
+}
+
+.login-screen.hidden {
+  display: none;
+}
+
+.login-box {
+  width: 100%;
+  max-width: 360px;
+  padding: 28px;
+  background: var(--sidebar-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.login-box h1 {
+  margin: 0 0 8px;
+  font-size: 1.5rem;
+}
+
+.login-box p {
+  margin: 0 0 20px;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.login-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel-bg);
+  color: var(--text);
+  font-size: 1rem;
+  outline: none;
+}
+
+.login-input:focus {
+  border-color: var(--accent);
+}
+
+.login-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background: var(--accent-hover);
+}
+
+.login-error {
+  margin: 12px 0 0;
+  color: #fa777c;
+  font-size: 0.875rem;
+}
+
+.login-error.hidden {
+  display: none;
+}
+
 .sidebar {
   width: 320px;
   min-width: 260px;
