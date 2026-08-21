@@ -99,7 +99,7 @@ function init() {
   }
 }
 
-const PASSWORD = 'raccoon187'
+const PASSWORD = 'rraccoon187'
 
 const loginScreen = document.getElementById('login-screen')
 const appContainer = document.getElementById('app')
